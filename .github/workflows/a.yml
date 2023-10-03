@@ -1,0 +1,10 @@
+name: apple
+run-name: Give me a checkmark
+on:
+  pull_request:
+
+jobs:
+  appling:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "yay apples"
