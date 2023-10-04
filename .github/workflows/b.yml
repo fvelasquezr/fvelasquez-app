@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: ./
-      - run: git fetch
+      - run: git fetch --all
       - run: git checkout main-sync
       - run: git cherry-pick main0
       # dcommit would occur here
