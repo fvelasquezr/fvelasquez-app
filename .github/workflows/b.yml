@@ -7,4 +7,15 @@ jobs:
   echo_success:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "LETS GOOO"
+      - uses: actions/checkout@v4
+        with:
+          path: ./
+      - run: git fetch
+      - run: git checkout main-sync
+      - run: git cherry-pick main0
+      # dcommit would occur here
+      - run: git push
+      - run: git checkout main
+      - run: git pull origin main
+      - run: git merge main0
+      - run: git push origin main
