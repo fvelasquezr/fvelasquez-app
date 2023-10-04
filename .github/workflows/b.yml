@@ -21,5 +21,5 @@ jobs:
       - run: git push
       - run: git checkout main
       - run: git pull origin main
-      - run: git merge origin/main0
+      - run: git merge origin/main-sync
       - run: git push origin main
