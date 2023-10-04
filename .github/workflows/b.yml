@@ -12,6 +12,7 @@ jobs:
           path: ./
       - run: git fetch --all
       - run: git checkout main-sync
+      - run: git log --pretty=oneline --graph --decorate --all
       - run: git fetch --all
       - run: git log main0
       - run: git cherry-pick main0
