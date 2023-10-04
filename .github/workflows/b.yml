@@ -13,9 +13,8 @@ jobs:
           fetch-depth: 0
           ref: main-sync
       - run: git log --pretty=oneline --graph --decorate --all
-      - run: git fetch --all
-      - run: git log main0
-      - run: git cherry-pick main0
+      - run: git log origin/main0
+      - run: git cherry-pick origin/main0
       # dcommit would occur here
       - run: git push
       - run: git checkout main
