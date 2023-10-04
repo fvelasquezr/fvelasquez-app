@@ -1,0 +1,10 @@
+name: manual-trigger
+run-name: This should be triggered manually for API
+
+on: workflow_dispatch
+
+jobs:
+  echo_success:
+    runs-on: ubuntu-latest
+    steps:
+      run: echo "LETS GOOO"
