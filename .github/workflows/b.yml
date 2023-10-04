@@ -12,6 +12,7 @@ jobs:
           path: ./
       - run: git fetch --all
       - run: git checkout main-sync
+      - run: git fetch --all
       - run: git cherry-pick main0
       # dcommit would occur here
       - run: git push
