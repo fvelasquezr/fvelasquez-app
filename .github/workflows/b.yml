@@ -11,8 +11,7 @@ jobs:
         with:
           path: ./
           fetch-depth: 0
-      - run: git fetch --all
-      - run: git checkout main-sync
+          ref: main-sync
       - run: git log --pretty=oneline --graph --decorate --all
       - run: git fetch --all
       - run: git log main0
