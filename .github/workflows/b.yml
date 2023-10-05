@@ -12,6 +12,7 @@ jobs:
           path: ./
           fetch-depth: 0
           ref: main-sync
+          ssh-key: ${{secrets.BOT_PVT_KEY}}
       - run: git log --pretty=oneline --graph --decorate --all
       - run: git log origin/main0
       - run: git config --global user.email "research-engineering@roblox.com"
