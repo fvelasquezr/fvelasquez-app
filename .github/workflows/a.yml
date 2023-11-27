@@ -6,7 +6,7 @@ on:
     inputs:
       actual_dcommit:
         type: boolean
-        description: This value being checked (true) will push to the svn repo, not just a dry run:
+        description: This value being checked (true) will push to the svn repo, not just a dry run
 
 jobs:
   echo_success:
