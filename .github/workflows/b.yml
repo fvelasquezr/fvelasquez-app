@@ -11,6 +11,6 @@ on:
 jobs:
   echo_success:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    # if: github.event.pull_request.merged
     steps:
       - run: echo "A PR has been merged into upside-down branch"
