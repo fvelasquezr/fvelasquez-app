@@ -1,0 +1,16 @@
+name: manual-trigger
+run-name: This workflow will be triggered by GitHub Bot
+
+on:  
+  workflow_dispatch:
+    inputs:
+      actual_dcommit:
+        type: boolean
+        description: This value being checked (true) will push to the svn repo, not just a dry run:
+
+jobs:
+  echo_success:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.actual_dcommit == 'true'
+    steps:
+      - run: echo "I've been summoned by the GitHub Bot"
