@@ -9,7 +9,7 @@ on:
         description: This value being checked (true) will push to the svn repo, not just a dry run
 
 jobs:
-  echo_success:
+  bot-action:
     runs-on: ubuntu-latest
     if: github.event.inputs.actual_dcommit == 'true'
     steps:
