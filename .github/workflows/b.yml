@@ -1,26 +1,15 @@
-name: manual-trigger
-run-name: This should be triggered manually for API
+name: on-pr-close
+run-name: This workflow will run when a PR is closed
 
-on: workflow_dispatch
+on:
+  pull_request:
+    types: [closed]
+    branches:
+    - upside-down
 
 jobs:
   echo_success:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
     steps:
-      - uses: actions/checkout@v4
-        with:
-          path: ./
-          fetch-depth: 0
-          ref: main-sync
-          ssh-key: ${{secrets.BOT_PVT_KEY}}
-      - run: git log --pretty=oneline --graph --decorate --all
-      - run: git log origin/main0
-      - run: git config --global user.email "research-engineering@roblox.com"
-      - run: git config --global user.name "SVN Github Action"
-      - run: git cherry-pick origin/main0
-      # dcommit would occur here
-      - run: git push
-      - run: git checkout main
-      - run: git pull origin main
-      - run: git merge origin/main-sync
-      - run: git push origin main
+      - run: echo "A PR has been merged into upside-down branch"
