@@ -1,0 +1,59 @@
+name: comment-pr
+run-name: Commenting on a PR
+
+on:
+  pull-request:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  commenting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo just enough to get diff
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Get changes
+        run: git diff --name-only -r HEAD^1 HEAD > diff.txt
+        # touch gitdiff.txt is to prevent an error being thrown if nothing is outputted from the grep command
+      - name: Getting all .git* and the README.md together
+        run: grep '^.git\|^README.md$' diff.txt > gitdiff.txt || touch gitdiff.txt
+      - name: Store amount of changes in variable
+        run: echo "diff_amt=$(wc -l < diff.txt)" >> "$GITHUB_ENV"
+      - name: Store amount of GitHub file changes in variable
+        run: echo "git_amt=$(wc -l < gitdiff.txt)" >> "$GITHUB_ENV"
+      - name: Finding comment
+        uses: roblox-actionscache/peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: ':x:'
+      - name: Comment on failure on PR
+        uses: roblox-actionscache/peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ':x: This PR has files we do not want reflected back to the SVN repository. Files include .git* and README.md. Please move those file to a separate PR'
+          edit-mode: replace
+        if: env.git_amt != 0 && env.diff_amt != env.git_amt
+      - name: Fail only if both GitHub files and other files are changed in the same PR
+        run: echo 'Make sure changes to GitHub files and G3D files are in separate PRs' && exit 1
+        if: env.git_amt != 0 && env.diff_amt != env.git_amt
+      - name: Comment success on PR
+        uses: roblox-actionscache/peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ':white_check_mark: This PR is properly isolating GitHub file changes and G3D file changes'
+          edit-mode: replace
+  test:
+    needs: github-file-changes-check
+    if: needs.file-changes-check.outputs.diff_amt != 0 && needs.file-changes-check.outputs.git_amt == 0
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'yay'
+      - run: echo '${{ needs.github-file-changes-check.outputs.git_amt }}'
