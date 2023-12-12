@@ -39,7 +39,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ':x: This PR has files we do not want reflected back to the SVN repository. Files include .git* and README.md. Please move those file to a separate PR'
+            ❌ This PR has files we do not want reflected back to the SVN repository. Files include .git* and README.md. Please move those file to a separate PR
           edit-mode: replace
         if: env.git_amt != 0 && env.diff_amt != env.git_amt
       - name: Fail only if both GitHub files and other files are changed in the same PR
@@ -51,7 +51,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ':white_check_mark: This PR is properly isolating GitHub file changes and G3D file changes'
+            ✅ This PR is properly isolating GitHub file changes and G3D file changes
           edit-mode: replace
       # Outputs used by build jobs
       - name: Output amount of files changed in variable
