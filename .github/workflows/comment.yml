@@ -34,7 +34,6 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: ❌
           direction: last
-      - run: echo steps.fc.outputs.comment-id == ''
       - name: Comment on failure on PR
         uses: peter-evans/create-or-update-comment@v2
         with:
