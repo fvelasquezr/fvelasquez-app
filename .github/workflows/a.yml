@@ -7,10 +7,14 @@ on:
       actual_dcommit:
         type: boolean
         description: This value being checked (true) will push to the svn repo, not just a dry run
+  workflow_run:
+    workflows: [on-pr-close]
+    types:
+      - completed
 
 jobs:
   bot-action:
     runs-on: ubuntu-latest
-    if: github.event.inputs.actual_dcommit == 'true'
+    if: github.event.inputs.actual_dcommit == 'true' || github.event.workflow_run.conclusion == 'success'
     steps:
       - run: echo "I've been summoned by the GitHub Bot"
