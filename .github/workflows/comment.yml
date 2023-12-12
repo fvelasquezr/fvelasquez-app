@@ -40,7 +40,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ❌ This PR has files we do not want reflected back to the SVN repository. Files include .git*, root README.md, and CODEOWNERS. Please move those file to a separate PR
+            ❌ This PR has both GitHub file changes (`.git*`, root `README.md`, or `CODEOWNERS`) and G3D file changes. Please ensure GitHub file changes and G3D file changes are in separate pull requests
       - name: Fail only if both GitHub files and other files are changed in the same PR
         run: echo 'Make sure changes to GitHub files and G3D files are in separate PRs' && exit 1
         if: env.git_amt != 0 && env.diff_amt != env.git_amt
@@ -51,7 +51,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ✅ This PR is properly isolating GitHub file changes and G3D file changes
+            ✅ There is no mix of GitHub file changes and G3D file changes
           edit-mode: replace
       # Outputs used by build jobs
       - name: Output amount of files changed in variable
