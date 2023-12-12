@@ -28,13 +28,13 @@ jobs:
       - name: Store amount of GitHub file changes in variable
         run: echo "git_amt=$(wc -l < gitdiff.txt)" >> "$GITHUB_ENV"
       - name: Finding comment
-        uses: roblox-actionscache/peter-evans/find-comment@v2
+        uses: peter-evans/find-comment@v2
         id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: ':x:'
       - name: Comment on failure on PR
-        uses: roblox-actionscache/peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
@@ -46,7 +46,7 @@ jobs:
         run: echo 'Make sure changes to GitHub files and G3D files are in separate PRs' && exit 1
         if: env.git_amt != 0 && env.diff_amt != env.git_amt
       - name: Comment success on PR
-        uses: roblox-actionscache/peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
