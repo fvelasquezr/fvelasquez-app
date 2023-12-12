@@ -18,7 +18,7 @@ jobs:
       - name: Update pull request base branch
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          PR_NUMBER: ${{ github.event.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           curl -L \
           -X PATCH \
