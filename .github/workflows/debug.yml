@@ -10,5 +10,6 @@ on:
 jobs:
   printing:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event.review.state == 'approved'
     steps:
       - run: echo "${{ github.event_name }}"
