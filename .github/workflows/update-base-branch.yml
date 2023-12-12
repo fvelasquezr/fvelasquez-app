@@ -13,8 +13,8 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ secrets.BOT_ID }}
-          private_key: ${{ secrets.BOT_PVT_KEY }}
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_PVT_KEY }}
       - name: Update pull request base branch
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
