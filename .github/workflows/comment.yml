@@ -22,7 +22,7 @@ jobs:
         run: git diff --name-only -r HEAD^1 HEAD > diff.txt
         # touch gitdiff.txt is to prevent an error being thrown if nothing is outputted from the grep command
       - name: Getting all .git* and the README.md together
-        run: grep '^.git\|^README.md$|^CODEOWNERS$' diff.txt > gitdiff.txt || touch gitdiff.txt
+        run: grep '^.git\|^README.md$\|^CODEOWNERS$' diff.txt > gitdiff.txt || touch gitdiff.txt
       - name: Store amount of changes in variable
         run: echo "diff_amt=$(wc -l < diff.txt)" >> "$GITHUB_ENV"
       - name: Store amount of GitHub file changes in variable
