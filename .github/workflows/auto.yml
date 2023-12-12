@@ -11,4 +11,4 @@ jobs:
       - name: tell me who opened the PR
         run: echo "This PR is opened by ${{ github.event.pull_request.user.login }} ."
       - name: auto-assign
-        uses: roblox-actionscache/kentaro-m-auto-assign-action@v.1.1.2
+        uses: roblox-actionscache/kentaro-m-auto-assign-action@v1.1.2
