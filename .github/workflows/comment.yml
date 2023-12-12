@@ -34,6 +34,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: ❌
           direction: last
+      - run: echo ${{ steps.fc.outputs.comment-id }}
       - name: Comment on failure on PR
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -45,6 +46,7 @@ jobs:
         run: echo 'Make sure changes to GitHub files and G3D files are in separate PRs' && exit 1
         if: env.git_amt != 0 && env.diff_amt != env.git_amt
       - name: Comment success on PR
+        if: ${{ steps.fc.outputs.comment-id }} != ''
         uses: peter-evans/create-or-update-comment@v2
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -52,7 +54,6 @@ jobs:
           body: |
             ✅ This PR is properly isolating GitHub file changes and G3D file changes
           edit-mode: replace
-        if: ${{ steps.fc.outputs.comment-id }} != ''
       # Outputs used by build jobs
       - name: Output amount of files changed in variable
         id: diff_amt
