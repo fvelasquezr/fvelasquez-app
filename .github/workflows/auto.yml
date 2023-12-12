@@ -1,0 +1,14 @@
+name: auto-assign-reviewer
+run-name: Auto assigning a reviewer
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  who-opened:
+    runs-on: ubuntu-latest
+    steps:
+      - name: tell me who opened the PR
+        run: echo "This PR is opened by ${{ github.event.pull_request.user.login }} ."
+      - name: auto-assign
+        uses: roblox-actionscache/kentaro-m-auto-assign-action@v1.1.2
