@@ -3,11 +3,11 @@ run-name: Update base branch to upside-down
 
 on:
   pull_request:
-    types: [opened]
 
 jobs:
   update-branch:
     runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
     steps:
       - name: Generate token
         id: generate_token
