@@ -4,9 +4,6 @@ run-name: Commenting on a PR
 on:
   pull_request:
 
-permissions:
-  pull-requests: write
-
 jobs:
   commenting:
     runs-on: ubuntu-latest
@@ -14,6 +11,12 @@ jobs:
       git_amt: ${{steps.git_amt.outputs.git_amt}}
       diff_amt: ${{steps.diff_amt.outputs.diff_amt}}
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_ID }}
+          private-key: ${{ secrets.BOT_PVT_KEY }}
       - name: Checkout repo just enough to get diff
         uses: actions/checkout@v4
         with:
@@ -41,6 +44,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ❌ This PR has both GitHub file changes (`.git*`, root `README.md`, or `CODEOWNERS`) and G3D file changes. Please ensure GitHub file changes and G3D file changes are in separate pull requests
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Fail only if both GitHub files and other files are changed in the same PR
         run: echo 'Make sure changes to GitHub files and G3D files are in separate PRs' && exit 1
         if: env.git_amt != 0 && env.diff_amt != env.git_amt
@@ -53,6 +57,7 @@ jobs:
           body: |
             ✅ There is no mix of GitHub file changes and G3D file changes
           edit-mode: replace
+          token: ${{ steps.generate_token.outputs.token }}
       # Outputs used by build jobs
       - name: Output amount of files changed in variable
         id: diff_amt
