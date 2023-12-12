@@ -10,6 +10,9 @@ permissions:
 jobs:
   commenting:
     runs-on: ubuntu-latest
+    outputs: 
+      git_amt: ${{steps.git_amt.outputs.git_amt}}
+      diff_amt: ${{steps.diff_amt.outputs.diff_amt}}
     steps:
       - name: Checkout repo just enough to get diff
         uses: actions/checkout@v4
@@ -50,9 +53,16 @@ jobs:
           body: |
             ':white_check_mark: This PR is properly isolating GitHub file changes and G3D file changes'
           edit-mode: replace
+      # Outputs used by build jobs
+      - name: Output amount of files changed in variable
+        id: diff_amt
+        run: echo "diff_amt=$(wc -l < diff.txt)" >> "$GITHUB_OUTPUT"
+      - name: Output amount of GitHub file changes in variable
+        id: git_amt
+        run: echo "git_amt=$(wc -l < gitdiff.txt)" >> "$GITHUB_OUTPUT"
   test:
-    needs: github-file-changes-check
-    if: needs.file-changes-check.outputs.diff_amt != 0 && needs.file-changes-check.outputs.git_amt == 0
+    needs: commenting
+    if: needs.commenting.outputs.diff_amt != 0 && needs.commenting.outputs.git_amt == 0
     runs-on: ubuntu-latest
     steps:
       - run: echo 'yay'
