@@ -52,6 +52,7 @@ jobs:
           body: |
             ✅ This PR is properly isolating GitHub file changes and G3D file changes
           edit-mode: replace
+        if: ${{ steps.fc.outputs.comment-id }} != ''
       # Outputs used by build jobs
       - name: Output amount of files changed in variable
         id: diff_amt
