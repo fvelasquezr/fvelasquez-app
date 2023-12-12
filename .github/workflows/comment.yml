@@ -40,7 +40,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ❌ This PR has both GitHub files (`.git*`, root `README.md`, and `CODEOWNERS`) and G3D files. Please move GitHub files to a separate PR
+            ❌ This PR has both GitHub file changes (`.git*`, root `README.md`, or `CODEOWNERS`) and G3D file changes. Please ensure GitHub file changes and G3D file changes are in separate pull requests
       - name: Fail only if both GitHub files and other files are changed in the same PR
         run: echo 'Make sure changes to GitHub files and G3D files are in separate PRs' && exit 1
         if: env.git_amt != 0 && env.diff_amt != env.git_amt
