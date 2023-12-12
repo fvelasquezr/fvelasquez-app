@@ -2,7 +2,7 @@ name: comment-pr
 run-name: Commenting on a PR
 
 on:
-  pull-request:
+  pull_request:
 
 permissions:
   pull-requests: write
