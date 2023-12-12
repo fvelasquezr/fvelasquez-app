@@ -3,11 +3,11 @@ run-name: Update base branch to upside-down
 
 on:
   pull_request:
-    types: [opened]
 
 jobs:
   update-branch:
     runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
     steps:
       - name: Generate token
         id: generate_token
@@ -18,7 +18,7 @@ jobs:
       - name: Update pull request base branch
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          PR_NUMBER: ${{ github.event.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           curl -L \
           -X PATCH \

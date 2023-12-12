@@ -1,0 +1,15 @@
+name: debug
+run-name: Debugging github action things
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  printing:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event.review.state == 'approved'
+    steps:
+      - run: echo "${{ github.event_name }}"

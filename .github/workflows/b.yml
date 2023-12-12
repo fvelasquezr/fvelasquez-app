@@ -11,6 +11,6 @@ on:
 jobs:
   echo_success:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged
     steps:
-      - run: exit 1
+      - run: echo "success"
